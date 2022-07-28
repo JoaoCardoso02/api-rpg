@@ -1,33 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using api_rpg.Models;
+using api_rpg.Services.CharacterService;
 
 namespace api_rpg.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
 	public class CharacterController : ControllerBase
-    {
-        private static List<Character> characters = new List<Character> {
-					new Character(),
-					new Character { Id = 1, Name = "Sam" }
-				};
+  {
+		private ICharacterService _characterService;
 
-				[HttpGet("GetAll")]
-				public ActionResult<List<Character>> Get() {
-					return Ok(characters);
-				}
+		public CharacterController(ICharacterService characterService)
+		{
+			_characterService = characterService;
+		}
 
-				[HttpGet]
-				[Route("{id}")]
-				public ActionResult<Character> GetSingle(int id) {
-					return Ok(characters.FirstOrDefault(character => character.Id == id));
-				}
+		[HttpGet("GetAll")]
+		public ActionResult<List<Character>> Get() {
+			return Ok(_characterService.GetAllCharacters());
+		}
 
-				[HttpPost]
-				public ActionResult<Character> AddCharacter(Character character) {
-					characters.Add(character);
+		[HttpGet]
+		[Route("{id}")]
+		public ActionResult<Character> GetSingle(int id) {
+			return Ok(_characterService.GetCharacterById(id));
+		}
 
-					return Ok(characters.Last());
-				}
-    }
+		[HttpPost]
+		public ActionResult<Character> AddCharacter(Character character) {
+			return Ok(_characterService.AddCharacter(character));
+		}
+	}
 }

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Fbhq8ndXW0tcu8PhvyMPquMxWjGOgM51fcnSM0A77Au15G/0NNEqfe2RD3mbO9MB/xvU3ahECyRAb69i0/2HWA==",
+  "success": true,
+  "projectFilePath": "/Users/joao/workspace/c#/api-rpg/api-rpg.csproj",
+  "expectedPackageFiles": [
+    "/Users/joao/.nuget/packages/microsoft.extensions.apidescription.server/3.0.0/microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "/Users/joao/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/joao/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "/Users/joao/.nuget/packages/swashbuckle.aspnetcore.swagger/6.2.3/swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "/Users/joao/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.2.3/swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "/Users/joao/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.2.3/swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

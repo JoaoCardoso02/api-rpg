@@ -21,7 +21,11 @@ namespace api_rpg.Services.CharacterService
 		public async Task<ServiceResponse<GetCharacterDto>> AddCharacter(AddCharacterDto newCharacter)
 		{
 			var serviceResponse = new ServiceResponse<GetCharacterDto>();
-			characters.Add(_mapper.Map<Character>(newCharacter));
+
+			Character character = _mapper.Map<Character>(newCharacter);
+			character.Id = characters.Max(character => character.Id) + 1;
+
+			characters.Add(character);
 			serviceResponse.Data = _mapper.Map<GetCharacterDto>(characters.Last());
 
 			return serviceResponse;

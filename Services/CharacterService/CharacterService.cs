@@ -9,20 +9,27 @@ namespace api_rpg.Services.CharacterService
 			new Character { Id = 1, Name = "Sam" }
 		};
 
-		public async Task<Character> AddCharacter(Character newCharacter)
+		public async Task<ServiceResponse<Character>> AddCharacter(Character newCharacter)
 		{
+			var serviceResponse = new ServiceResponse<Character>();
 			characters.Add(newCharacter);
-			return characters.Last();
+			serviceResponse.Data = newCharacter;
+			
+			return serviceResponse;
 		}
 
-		public async Task<List<Character>> GetAllCharacters()
+		public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
 		{
-			return characters;
+			return new ServiceResponse<List<Character>> { Data = characters };
 		}
 
-		public async Task<Character> GetCharacterById(int id)
+		public async Task<ServiceResponse<Character>> GetCharacterById(int id)
 		{
-			return characters.FirstOrDefault(character => character.Id == id);
+			var serviceResponse = new ServiceResponse<Character>();
+			var character = characters.FirstOrDefault(character => character.Id == id);
+			serviceResponse.Data = character;
+
+			return serviceResponse;
 		}
 	}
 }

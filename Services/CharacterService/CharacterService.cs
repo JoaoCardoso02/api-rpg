@@ -1,4 +1,6 @@
 using api_rpg.Models;
+using api_rpg.Dtos.Characters;
+using AutoMapper;
 
 namespace api_rpg.Services.CharacterService
 {
@@ -9,25 +11,35 @@ namespace api_rpg.Services.CharacterService
 			new Character { Id = 1, Name = "Sam" }
 		};
 
-		public async Task<ServiceResponse<Character>> AddCharacter(Character newCharacter)
+		private readonly IMapper _mapper;
+
+		public CharacterService(IMapper mapper)
 		{
-			var serviceResponse = new ServiceResponse<Character>();
-			characters.Add(newCharacter);
-			serviceResponse.Data = newCharacter;
-			
+			_mapper = mapper;
+		}
+
+		public async Task<ServiceResponse<GetCharacterDto>> AddCharacter(AddCharacterDto newCharacter)
+		{
+			var serviceResponse = new ServiceResponse<GetCharacterDto>();
+			characters.Add(_mapper.Map<Character>(newCharacter));
+			serviceResponse.Data = _mapper.Map<GetCharacterDto>(characters.Last());
+
 			return serviceResponse;
 		}
 
-		public async Task<ServiceResponse<List<Character>>> GetAllCharacters()
+		public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
 		{
-			return new ServiceResponse<List<Character>> { Data = characters };
+			return new ServiceResponse<List<GetCharacterDto>>
+			{
+				Data = characters.Select(character => _mapper.Map<GetCharacterDto>(character)).ToList()
+			};
 		}
 
-		public async Task<ServiceResponse<Character>> GetCharacterById(int id)
+		public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
 		{
-			var serviceResponse = new ServiceResponse<Character>();
+			var serviceResponse = new ServiceResponse<GetCharacterDto>();
 			var character = characters.FirstOrDefault(character => character.Id == id);
-			serviceResponse.Data = character;
+			serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
 
 			return serviceResponse;
 		}

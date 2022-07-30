@@ -55,12 +55,7 @@ namespace api_rpg.Services.CharacterService
 			try {
 				var character = characters.FirstOrDefault(character => character.Id == updatedCharacter.Id);
 
-				character.Name = updatedCharacter.Name;
-				character.HitPoints = updatedCharacter.HitPoints;
-				character.Strength = updatedCharacter.Strength;
-				character.Defense = updatedCharacter.Defense;
-				character.Intelligence = updatedCharacter.Intelligence;
-				character.Class = updatedCharacter.Class;
+				_mapper.Map(updatedCharacter, character);
 
 				response.Data = _mapper.Map<GetCharacterDto>(character);
 

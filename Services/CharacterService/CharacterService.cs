@@ -31,6 +31,25 @@ namespace api_rpg.Services.CharacterService
 			return serviceResponse;
 		}
 
+		public async Task<ServiceResponse<bool>> DeleteCharacter(int id)
+		{
+			var response = new ServiceResponse<bool>();
+
+			try {
+				var character = characters.First(character => character.Id == id);
+
+				characters.Remove(character);
+
+				response.Data = true;
+			} catch (Exception error) {
+				response.Success = false;
+				response.Message = error.Message;
+				response.Data = false;
+			}
+
+			return response;
+		}
+
 		public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
 		{
 			return new ServiceResponse<List<GetCharacterDto>>
@@ -58,8 +77,6 @@ namespace api_rpg.Services.CharacterService
 				_mapper.Map(updatedCharacter, character);
 
 				response.Data = _mapper.Map<GetCharacterDto>(character);
-
-				return response;
 			} catch (Exception error) {
 				response.Success = false;
 				response.Message = error.Message;

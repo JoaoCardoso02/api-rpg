@@ -18,18 +18,39 @@ namespace api_rpg.Controllers
 
 		[HttpGet("GetAll")]
 		public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get() {
-			return Ok(await _characterService.GetAllCharacters());
+			var response = await _characterService.GetAllCharacters();
+
+			if (response.Data == null)
+			{
+				return NotFound(response);
+			}
+
+			return Ok(response);
 		}
 
 		[HttpGet]
 		[Route("{id}")]
 		public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id) {
-			return Ok(await _characterService.GetCharacterById(id));
+			var response = await _characterService.GetCharacterById(id);
+
+			if (response.Data == null)
+			{
+				return BadRequest(response);
+			}
+
+			return Ok(response);
 		}
 
 		[HttpPost]
 		public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacter(AddCharacterDto character) {
-			return Ok(await _characterService.AddCharacter(character));
+			var response = await _characterService.AddCharacter(character);
+
+			if (response.Data == null)
+			{
+				return BadRequest(response);
+			}
+
+			return Ok(response);
 		}
 
 		[HttpPut]

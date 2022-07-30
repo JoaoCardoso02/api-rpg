@@ -20,15 +20,20 @@ namespace api_rpg.Services.CharacterService
 
 		public async Task<ServiceResponse<GetCharacterDto>> AddCharacter(AddCharacterDto newCharacter)
 		{
-			var serviceResponse = new ServiceResponse<GetCharacterDto>();
+			var response = new ServiceResponse<GetCharacterDto>();
 
-			Character character = _mapper.Map<Character>(newCharacter);
-			character.Id = characters.Max(character => character.Id) + 1;
+			try {
+				Character character = _mapper.Map<Character>(newCharacter);
+				character.Id = characters.Max(character => character.Id) + 1;
 
-			characters.Add(character);
-			serviceResponse.Data = _mapper.Map<GetCharacterDto>(characters.Last());
+				characters.Add(character);
+				response.Data = _mapper.Map<GetCharacterDto>(characters.Last());
+			} catch (Exception error) {
+				response.Success = false;
+				response.Message = error.Message;
+			}
 
-			return serviceResponse;
+			return response;
 		}
 
 		public async Task<ServiceResponse<bool>> DeleteCharacter(int id)
@@ -52,19 +57,31 @@ namespace api_rpg.Services.CharacterService
 
 		public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
 		{
-			return new ServiceResponse<List<GetCharacterDto>>
-			{
-				Data = characters.Select(character => _mapper.Map<GetCharacterDto>(character)).ToList()
-			};
+			var response = new ServiceResponse<List<GetCharacterDto>>();
+
+			try {
+				response.Data = characters.Select(character => _mapper.Map<GetCharacterDto>(character)).ToList();
+			} catch (Exception error) {
+				response.Success = false;
+				response.Message = error.Message;
+			}
+
+			return response;
 		}
 
 		public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
 		{
-			var serviceResponse = new ServiceResponse<GetCharacterDto>();
-			var character = characters.FirstOrDefault(character => character.Id == id);
-			serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
+			var response = new ServiceResponse<GetCharacterDto>();
 
-			return serviceResponse;
+			try {
+				var character = characters.FirstOrDefault(character => character.Id == id);
+				response.Data = _mapper.Map<GetCharacterDto>(character);
+			} catch (Exception error) {
+				response.Success = false;
+				response.Message = error.Message;
+			}
+
+			return response;
 		}
 
 		public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
